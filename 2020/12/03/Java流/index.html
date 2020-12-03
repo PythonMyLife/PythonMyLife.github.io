@@ -15,7 +15,7 @@
 <meta property="og:description" content="本文基于Java SE 8的流库 更简约的迭代如果我们需要遍历一个集合的元素来选出我们想要的部分，我们通常会选择迭代的方式来解决问题，例如我们想要从数组中找到大于1000的元素的个数，我们可以这样编写我们的代码 1234long count &#x3D; 0;for(Integer num : nums) &amp;#123;    count +&#x3D; num &gt; 1000 ? 1 : 0;&amp;#125;  如果">
 <meta property="og:locale">
 <meta property="article:published_time" content="2020-12-03T05:58:02.000Z">
-<meta property="article:modified_time" content="2020-12-03T08:51:33.922Z">
+<meta property="article:modified_time" content="2020-12-03T09:34:27.701Z">
 <meta property="article:author" content="hzt">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
@@ -96,7 +96,7 @@
 <p>如果使用流来操作，我们的代码则会是下面这样</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">count = nums.stream().filter(num -&gt; num &gt; <span class="number">1000</span>).count();</span><br></pre></td></tr></table></figure>
 
-<p>也可以将<code>stream</code>修改为<code>paeallelStream</code>来并行地执行过滤和计数，像是这样</p>
+<p>也可以将<code>stream</code>修改为<code>parallelStream</code>来并行地执行过滤和计数，像是这样</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">count = nums.parallelStream().filter(num -&gt; num &gt; <span class="number">1000</span>).count();</span><br></pre></td></tr></table></figure>
 
 <p>在流操作中，我们首先创建了一个流，之后使用<code>filter</code>将初始流转换成了其他的流，最后使用<code>count</code>执行了之前的惰性操作，产生出了我们想要的结果。</p>
@@ -234,7 +234,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/12/03/Java%E6%B5%81/" data-id="cki8n11rh000377l4e3lib0ql" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/12/03/Java%E6%B5%81/" data-id="cki8n7m720001iil41ecz2hhf" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
