@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Java流 | PythonMyLife</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文基于Java SE 8的流库 更简约的迭代如果我们需要遍历一个集合的元素来选出我们想要的部分，我们通常会选择迭代的方式来解决问题，例如我们想要从数组中找到大于1000的元素的个数，我们可以这样编写我们的代码 1234long count &#x3D; 0;for(Integer num : nums) &amp;#123;    count +&#x3D; num &gt; 1000 ? 1 : 0;&amp;#125;  如果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java流">
+<meta property="og:url" content="http://yoursite.com/2020/12/03/Java%E6%B5%81/index.html">
+<meta property="og:site_name" content="PythonMyLife">
+<meta property="og:description" content="本文基于Java SE 8的流库 更简约的迭代如果我们需要遍历一个集合的元素来选出我们想要的部分，我们通常会选择迭代的方式来解决问题，例如我们想要从数组中找到大于1000的元素的个数，我们可以这样编写我们的代码 1234long count &#x3D; 0;for(Integer num : nums) &amp;#123;    count +&#x3D; num &gt; 1000 ? 1 : 0;&amp;#125;  如果">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-12-03T05:58:02.000Z">
+<meta property="article:modified_time" content="2020-12-03T08:51:33.922Z">
+<meta property="article:author" content="hzt">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="PythonMyLife" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">PythonMyLife</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Java流" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/12/03/Java%E6%B5%81/" class="article-date">
+  <time datetime="2020-12-03T05:58:02.000Z" itemprop="datePublished">2020-12-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java流
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文基于Java SE 8的流库</p>
+<h2 id="更简约的迭代"><a href="#更简约的迭代" class="headerlink" title="更简约的迭代"></a>更简约的迭代</h2><p>如果我们需要遍历一个集合的元素来选出我们想要的部分，我们通常会选择迭代的方式来解决问题，例如我们想要从数组中找到大于1000的元素的个数，我们可以这样编写我们的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span>(Integer num : nums) &#123;</span><br><span class="line">    count += num &gt; <span class="number">1000</span> ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果使用流来操作，我们的代码则会是下面这样</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">count = nums.stream().filter(num -&gt; num &gt; <span class="number">1000</span>).count();</span><br></pre></td></tr></table></figure>
+
+<p>也可以将<code>stream</code>修改为<code>paeallelStream</code>来并行地执行过滤和计数，像是这样</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">count = nums.parallelStream().filter(num -&gt; num &gt; <span class="number">1000</span>).count();</span><br></pre></td></tr></table></figure>
+
+<p>在流操作中，我们首先创建了一个流，之后使用<code>filter</code>将初始流转换成了其他的流，最后使用<code>count</code>执行了之前的惰性操作，产生出了我们想要的结果。</p>
+<p>所以我们可以总结出操作流的典型流程：</p>
+<ul>
+<li>创建一个初始流。</li>
+<li>指定将初始流转换成其他流的中间操作，中间操作可能包含多个步骤。</li>
+<li>应用终止操作，从而产生结果。这个操作会强制执行之前的惰性操作。</li>
+</ul>
+<p>除此之外，流还有几点性质：</p>
+<ul>
+<li>流并不会对元素进行存储，这些元素可能存储在底层的集合中，或者是按需生成的。</li>
+<li>流的操作不会修改数据源，比如<code>filter</code>过滤之后只是生成了一个新的流，而不是将数据源中不符合条件的元素给过滤掉了。</li>
+<li>流的操作是惰性执行的，只有当需要流的结果时操作才会执行。</li>
+</ul>
+<h2 id="流的创建"><a href="#流的创建" class="headerlink" title="流的创建"></a>流的创建</h2><p>首先，我们来看一看如何创建流</p>
+<ul>
+<li><p>对于<code>Collection</code>的实现类可以使用<code>Collection</code>的<code>stream</code>方法将任何集合转换成一个流。</p>
+</li>
+<li><p>对于数组来说，可以使用静态的<code>Stream.of()</code>方法，或者可以使用<code>Arrays.stream(array, from, to)</code>来使用数组中位于<code>from</code>和<code>to</code>之间的元素来创建一个流。</p>
+</li>
+<li><p>创建空流可以使用静态的<code>Stream.empty()</code>方法。</p>
+</li>
+<li><p>创建无限流有两种方法</p>
+<ul>
+<li><p>可以使用<code>generate</code>方法来创建无限流，该方法会接受一个不包含任何引元的函数，当需要一个流类型的值的时候，就会执行该函数以产生一个这样的值，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;Integer&gt; nums = Stream.generate(() -&gt; <span class="number">1</span>);</span><br><span class="line">Stream&lt;Double&gt; randoms = Stream.generate(Math::random);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>还可以使用<code>iterate</code>方法来创建，该方法会接受一个“种子”和一个函数，每次调用会将函数应用到之前的结果上，例如我们想产生一个0 1 2 3这样的流：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;BigInteger&gt; nums = Stream.iterate(BigInteger.ZERO, n -&gt; n.add(BigInteger.ONE));</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="流的转换"><a href="#流的转换" class="headerlink" title="流的转换"></a>流的转换</h2><h3 id="filter、map和flatMap方法"><a href="#filter、map和flatMap方法" class="headerlink" title="filter、map和flatMap方法"></a>filter、map和flatMap方法</h3><ul>
+<li><p><code>filter</code>会产生一个新的只包含满足给出条件的元素的流，<code>filter</code>的引元为<code>T</code>到<code>boolean</code>的函数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;Integer&gt; count = nums.stream().filter(num -&gt; num &gt; <span class="number">1000</span>).count();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>map</code>方法会按照某种方式来转换流中的值，例如我们可以这样将所有单词转换为小写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; lowerCaseWords = words.stream().map(String::toLowerCase);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>flatMap</code>方法会对流中的每个元素执行方法，并将方法生成的流加入得到的流中，例如我们可以将单词的流按照下面的转换转换成字母流：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 该方法将String类型的s转换为s的每个字母组成的流</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Stream&lt;String&gt; <span class="title">letters</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    list&lt;String&gt; letters = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length(); i++) &#123;</span><br><span class="line">        letters.add(s.subString(i, i + <span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result.stream();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 将单词流转换成一个由每个单词的字母组成的字母流</span></span><br><span class="line">Stream&lt;String&gt; letterStream = words.stream().flatMap(w -&gt; letters(w));</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="抽取子流和连接流"><a href="#抽取子流和连接流" class="headerlink" title="抽取子流和连接流"></a>抽取子流和连接流</h3><ul>
+<li><p>可以使用<code>limit</code>方法和<code>skip</code>方法来抽取流中我们需要的元素。</p>
+<ul>
+<li><p><code>limit(n)</code>会返回一个新的流，在n个元素之后结束。例如可以使用以下的方法来得到100个随机数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;Double&gt; randoms = Stream.generate(Math::random).limit(<span class="number">100</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>skip(n)</code>会舍弃流中的前n个元素，这个方法可以用于跳过无用的元素。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; words = Stream.of(contents.split(<span class="string">&quot;\\PL+&quot;</span>)).skip(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>可以使用<code>concat</code>方法来连接流，不过第一个流不应该是无限的，否则第二个流永远不会被处理。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; combined = Stream.concat(Stream.of(<span class="string">&quot;hello&quot;</span>), Stream.of(<span class="string">&quot;world&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="其他的流转换"><a href="#其他的流转换" class="headerlink" title="其他的流转换"></a>其他的流转换</h3><ul>
+<li><p><code>distinct</code>会剔除重复的元素，例如以下流在操作后就只剩下一个”a”了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; distinct = Stream.of(<span class="string">&quot;a&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;a&quot;</span>).distinct();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>sorted</code>可以对流中的元素进行排序，可以对<code>Comparable</code>元素进行排序也可以接受一个<code>Comparator</code>进行排序，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;Integer&gt; smallFirst = nums.stream().sorted();</span><br><span class="line">Stream&lt;Integer&gt; bigFirst = nums.stream().sorted((a, b) -&gt; a &gt; b ? <span class="number">1</span> : -<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>peek</code>会产生一个与原流相同的流，不过在每次获取元素时都会调用一个函数，例如可以这样调试：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">count = nums.stream().filter(num -&gt; num &gt; <span class="number">1000</span>).peek(num -&gt; System.out.println(<span class="string">&quot;Fetching: &quot;</span> + num)).count();</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="流的约简"><a href="#流的约简" class="headerlink" title="流的约简"></a>流的约简</h2><p>在创建流以及对流进行转换之后，我们需要从流中得到答案，这种操作称为流的约简。</p>
+<table>
+<thead>
+<tr>
+<th>约简方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>long count()</code></td>
+<td>返回当前流中的数量</td>
+</tr>
+<tr>
+<td><code>Optional&lt;T&gt; max(Comparator &lt;? super T&gt; comparator)</code></td>
+<td>返回当前流中的最大值</td>
+</tr>
+<tr>
+<td><code>Optional&lt;T&gt; min(Comparator &lt;? super T&gt; comparator)</code></td>
+<td>返回当前流中的最小值</td>
+</tr>
+<tr>
+<td><code>Optional&lt;T&gt; findFirst()</code></td>
+<td>返回当前流中的第一个元素</td>
+</tr>
+<tr>
+<td><code>Optional&lt;T&gt; findAny()</code></td>
+<td>返回当前流中的任意一个元素</td>
+</tr>
+<tr>
+<td><code>bollean anyMatch(Predicate&lt;? super T&gt; predicate)</code></td>
+<td>当前流中任意一个元素满足断言时返回<code>true</code></td>
+</tr>
+<tr>
+<td><code>bollean allMatch(Predicate&lt;? super T&gt; predicate)</code></td>
+<td>当前流中全部元素都满足断言时返回<code>true</code></td>
+</tr>
+<tr>
+<td><code>bollean noneMatch(Predicate&lt;? super T&gt; predicate)</code></td>
+<td>当前流中没有一个元素满足断言时返回<code>true</code></td>
+</tr>
+</tbody></table>
+<h2 id="流的收集"><a href="#流的收集" class="headerlink" title="流的收集"></a>流的收集</h2><p>有时我们在处理流中元素的时候想要查看元素或者做一些处理，这时我们就需要使用一些流的收集方法。</p>
+<ul>
+<li><p><code>iterator</code>方法可以返回一个迭代处理流中元素的迭代器，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Iterator&lt;Integer&gt; iterator = nums.stream().iterator();</span><br><span class="line"><span class="keyword">while</span>(iterator.hasNext()) &#123;</span><br><span class="line">    System.out.println(iterator.next());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>forEach</code>方法可以将函数应用到流中的每个元素上，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stream.forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+
+<p>不过如果是并行流，那么<code>forEach</code>方法会以任意顺序遍历各个元素，如果想要按流顺序来处理则可以使用<code>forEachOrdered</code>方法，不过这种方法会带来性能损失。</p>
+</li>
+</ul>
+<p>不过更为常见的应用场景是将结果收集到数据结构中，此时可以调用<code>toArray()</code>获得由流的元素组成的数组，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String[] result = stream.toArray(String[]::<span class="keyword">new</span>);</span><br></pre></td></tr></table></figure>
+
+<p>或者，更简便地，我们可以使用<code>collect</code>方法，它会接受一个<code>Collection</code>接口的实例，<code>Collectors</code>类提供了大量用于生成公共收集器的工厂方法，可以将流中的元素收集到列表或者集合中，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; stream = Stream.of(<span class="string">&quot;hello&quot;</span>, <span class="string">&quot;world&quot;</span>);</span><br><span class="line"><span class="comment">// 收集到列表中</span></span><br><span class="line">List&lt;String&gt; list = stream.collect(Collectors.toList());</span><br><span class="line"><span class="comment">// 收集到集合中</span></span><br><span class="line">Set&lt;String&gt; set = stream.collect(Collectors.toSet());</span><br><span class="line"><span class="comment">// 控制获得集合的种类</span></span><br><span class="line">Set&lt;String&gt; treeSet = stream.collect(Collectors.toCollection(TreeSet::<span class="keyword">new</span>));</span><br><span class="line"><span class="comment">// 连接操作</span></span><br><span class="line">String result = stream.collect(Collectors.joining());</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/12/03/Java%E6%B5%81/" data-id="cki8mtdtz0001y9l47fhlfhqr" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/12/03/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/java/" style="font-size: 10px;">java</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/12/03/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">Java并发编程</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/03/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/03/Java%E6%B5%81/">Java流</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 hzt<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
